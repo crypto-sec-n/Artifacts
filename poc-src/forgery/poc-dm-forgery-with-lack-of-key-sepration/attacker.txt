@@ -1,0 +1,5 @@
+Terminal, Web App: 
+Attacker
+
+Web App: 
+Malicious QR code that has Bob's public key

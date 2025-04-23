@@ -1,0 +1,8 @@
+Basic Forgery Attack on All Events 
+vulnerability : lack of signature verification on client
+
+Goal1: display forged Bob's profile on Alice(Victim) device.
+Goal2: PoC that Bitcoin can be transferred to the replaced attacker's bitcoin address.
+
+Server doesn't have a server-side signature verification. 
+Server is non-malicious legitimate relay server and complies on Nostr spec.

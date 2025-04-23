@@ -1,0 +1,67 @@
+From 4432ae9878d0d5444c048c15eda0a9e45f9e4182 Mon Sep 17 00:00:00 2001
+From: Hayato Kimura <hytkimura_github@protonmail.com>
+Date: Sat, 1 Jul 2023 15:24:21 +0900
+Subject: [PATCH] Added DM varification
+
+---
+ damus/Models/HomeModel.swift | 42 +++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
+
+diff --git a/damus/Models/HomeModel.swift b/damus/Models/HomeModel.swift
+index d7580e6b..e91f30e5 100644
+--- a/damus/Models/HomeModel.swift
++++ b/damus/Models/HomeModel.swift
+@@ -567,28 +567,30 @@ class HomeModel {
+     }
+     
+     func handle_dm(_ ev: NostrEvent) {
+-        guard should_show_event(contacts: damus_state.contacts, ev: ev) else {
+-            return
+-        }
+-        
+-        damus_state.events.insert(ev)
+-        
+-        if !should_debounce_dms {
+-            self.incoming_dms.append(ev)
+-            if let notifs = handle_incoming_dms(prev_events: notification_status.new_events, dms: self.dms, our_pubkey: self.damus_state.pubkey, evs: self.incoming_dms) {
+-                got_new_dm(notifs: notifs, ev: ev)
++        guard_valid_event(events: damus_state.events, ev: ev) {
++            guard should_show_event(contacts: self.damus_state.contacts, ev: ev) else {
++                return
+             }
+-            self.incoming_dms = []
+-            return
+-        }
+-        
+-        incoming_dms.append(ev)
+-        
+-        dm_debouncer.debounce { [self] in
+-            if let notifs = handle_incoming_dms(prev_events: notification_status.new_events, dms: self.dms, our_pubkey: self.damus_state.pubkey, evs: self.incoming_dms) {
+-                got_new_dm(notifs: notifs, ev: ev)
++            
++            self.damus_state.events.insert(ev)
++            
++            if !self.should_debounce_dms {
++                self.incoming_dms.append(ev)
++                if let notifs = handle_incoming_dms(prev_events: self.notification_status.new_events, dms: self.dms, our_pubkey: self.damus_state.pubkey, evs: self.incoming_dms) {
++                    self.got_new_dm(notifs: notifs, ev: ev)
++                }
++                self.incoming_dms = []
++                return
++            }
++            
++            self.incoming_dms.append(ev)
++            
++            self.dm_debouncer.debounce { [self] in
++                if let notifs = handle_incoming_dms(prev_events: notification_status.new_events, dms: self.dms, our_pubkey: self.damus_state.pubkey, evs: self.incoming_dms) {
++                    self.got_new_dm(notifs: notifs, ev: ev)
++                }
++                self.incoming_dms = []
+             }
+-            self.incoming_dms = []
+         }
+     }
+ }
+-- 
+2.41.0
+

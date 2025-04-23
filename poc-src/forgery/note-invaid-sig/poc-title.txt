@@ -1,0 +1,8 @@
+Basic Forgery Attack on All Events
+Target: Note (Post) Forgery
+vulnerability : lack of signature verification on client
+
+Goal: display forged Bob's Note(Post) on Alice(Victim) device.
+
+This server doesn't have a server-side signature verification. 
+This server is non-malicious legitimate relay server and complies on Nostr spec.

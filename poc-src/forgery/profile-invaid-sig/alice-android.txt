@@ -1,0 +1,4 @@
+Android: 
+Alice,Plebstr v0.7.6+56 (Android) Victim's app
+Compare with Amethyst v0.80.7 (Android) that
+ performs signature verification 

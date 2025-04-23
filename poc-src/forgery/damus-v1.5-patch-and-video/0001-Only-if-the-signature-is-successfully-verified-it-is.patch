@@ -1,0 +1,28 @@
+From 36f1096465577fc1697c1baf41473512d1da2a0b Mon Sep 17 00:00:00 2001
+From: Hayato Kimura <hytkimura_github@protonmail.com>
+Date: Wed, 5 Jul 2023 13:56:07 +0900
+Subject: [PATCH] Only if the signature is successfully verified, it is cached.
+
+---
+ damus/Models/HomeModel.swift | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/damus/Models/HomeModel.swift b/damus/Models/HomeModel.swift
+index f452fe6d..aae61c25 100644
+--- a/damus/Models/HomeModel.swift
++++ b/damus/Models/HomeModel.swift
+@@ -764,10 +764,10 @@ func guard_valid_event(events: EventCache, ev: NostrEvent, callback: @escaping (
+             let result = validate_event(ev: ev)
+             
+             DispatchQueue.main.async {
+-                events.store_event_validation(evid: ev.id, validated: result)
+                 guard result == .ok else {
+                     return
+                 }
++                events.store_event_validation(evid: ev.id, validated: result)
+                 callback()
+             }
+         }
+-- 
+2.41.0
+

@@ -1,0 +1,26 @@
+From 311fcf9afc3ffd3973bc2f473c27ac75f7e596fd Mon Sep 17 00:00:00 2001
+From: Hayato Kimura <hytkimura_github@protonmail.com>
+Date: Sat, 1 Jul 2023 04:08:41 +0900
+Subject: [PATCH] Added event id validation
+
+---
+ damus/Models/HomeModel.swift | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/damus/Models/HomeModel.swift b/damus/Models/HomeModel.swift
+index d7580e6b..7c8041d9 100644
+--- a/damus/Models/HomeModel.swift
++++ b/damus/Models/HomeModel.swift
+@@ -748,6 +748,9 @@ func process_metadata_profile(our_pubkey: String, profiles: Profiles, profile: P
+ }
+ 
+ func guard_valid_event(events: EventCache, ev: NostrEvent, callback: @escaping () -> Void) {
++    guard ev.id==calculate_event_id(ev: ev) else {
++        return
++    }
+     let validated = events.is_event_valid(ev.id)
+     
+     switch validated {
+-- 
+2.41.0
+

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  dnsmasq:
+    restart: always
+    image: 4km3/dnsmasq
+    container_name: sp24dnsmasq
+    environment:
+      TZ: "Asia/Tokyo"
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - './dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
